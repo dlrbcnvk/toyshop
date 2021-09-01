@@ -30,7 +30,7 @@ public class ReviewCommentRepository {
                 .getResultList();
     }
 
-    public List<ReviewComment> findByReview(ItemReview itemReview) {
+    public List<ReviewComment> findByItemReview(ItemReview itemReview) {
         return em.createQuery("select comment from ReviewComment comment where comment.itemReview = :itemReview", ReviewComment.class)
                 .setParameter("itemReview", itemReview)
                 .getResultList();
