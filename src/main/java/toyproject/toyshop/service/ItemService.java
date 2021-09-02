@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import toyproject.toyshop.domain.Item;
 import toyproject.toyshop.repository.ItemRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Service
@@ -32,5 +34,14 @@ public class ItemService {
     public void delete(Item item) {
         itemRepository.delete(item);
     }
+
+    @Transactional
+    public void updateItem(Item itemParam) { //이걸로 리뷰, 상품 상세는 수정 불가
+        Item findItem = itemRepository.findOne(itemParam.getId());
+        findItem.setName(itemParam.getName());
+        findItem.setPrice(itemParam.getPrice());
+        findItem.setStockQuantity(itemParam.getStockQuantity());
+    }
+
 
 }

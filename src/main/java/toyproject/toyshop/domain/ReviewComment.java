@@ -41,8 +41,5 @@ public class ReviewComment {
         return reviewComment;
     }
 
-    //==비즈니스 로직==//
-    //todo
-
     //==조회 로직==//
 }

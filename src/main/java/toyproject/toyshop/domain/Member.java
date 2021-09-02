@@ -19,6 +19,9 @@ public class Member {
     private String password;
     private String email;
 
+    @Embedded
+    private Address address;
+
     public Member() {
     }
 
@@ -26,9 +29,6 @@ public class Member {
         this.id = id;
         this.name = name;
     }
-
-    @Embedded
-    private Address address;
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
@@ -38,6 +38,4 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<ItemReview> reviews = new ArrayList<>();
-
-
 }

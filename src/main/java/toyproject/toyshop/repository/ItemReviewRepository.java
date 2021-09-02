@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import toyproject.toyshop.domain.Item;
 import toyproject.toyshop.domain.ItemReview;
 import toyproject.toyshop.domain.Member;
+import toyproject.toyshop.domain.ReviewComment;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

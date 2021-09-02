@@ -44,12 +44,10 @@ public class ItemReview {
         return itemReview;
     }
 
-    //==비즈니스 로직==//
-    //todo cancel
-
     public void addComment(ReviewComment reviewComment) {
         comments.add(reviewComment);
     }
+
     //==조회 로직==//
-    //todo
+    //todo 리뷰 검색
 }

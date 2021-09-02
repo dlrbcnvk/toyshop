@@ -3,6 +3,7 @@ package toyproject.toyshop.repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import toyproject.toyshop.domain.Item;
+import toyproject.toyshop.domain.ItemReview;
 import toyproject.toyshop.domain.Member;
 
 import javax.persistence.EntityManager;
@@ -18,7 +19,7 @@ public class ItemRepository {
         if (item.getId() == null) {
             em.persist(item);
         } else {
-            em.merge(item); //todo merge 또는 변경감지 확실히 알아보고 결정할 것
+            throw new RuntimeException("이미 있는데...?!");
         }
     }
 

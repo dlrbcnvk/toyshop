@@ -18,8 +18,9 @@ public class ReviewCommentService {
 
     private final ReviewCommentRepository reviewCommentRepository;
 
-    public void saveReviewComment(ReviewComment ReviewComment) {
+    public Long saveReviewComment(ReviewComment ReviewComment) {
         reviewCommentRepository.save(ReviewComment);
+        return ReviewComment.getId();
     }
 
     public List<ReviewComment> findItemReviews() {
@@ -38,6 +39,7 @@ public class ReviewCommentService {
         return reviewCommentRepository.findByMember(member);
     }
 
+    @Transactional //이 댓글 하나만 없애고 싶을 때
     public void delete(ReviewComment ReviewComment) {
         reviewCommentRepository.delete(ReviewComment);
     }

@@ -70,7 +70,7 @@ public class Order {
     //==비즈니스 로직==//
     public void cancel() {
         if (delivery.getStatus() == DeliveryStatus.COMP) {
-            throw new IllegalStateException("이미 배송완료도니 상품은 취소할 수 없습니다.");
+            throw new IllegalStateException("이미 배송완료 된 상품은 취소할 수 없습니다.");
         }
         this.setStatus(OrderStatus.CANCEL);
         for (OrderItem orderItem : orderItems) {

@@ -1,6 +1,5 @@
 package toyproject.toyshop.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,10 +8,11 @@ import toyproject.toyshop.domain.Book;
 import toyproject.toyshop.domain.Item;
 import toyproject.toyshop.repository.ItemRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -21,6 +21,9 @@ class ItemServiceTest {
     @Autowired ItemService itemService;
     @Autowired
     ItemRepository itemRepository;
+
+    @PersistenceContext
+    EntityManager em;
 
     @Test
     public void 상품등록() throws Exception {
@@ -40,10 +43,26 @@ class ItemServiceTest {
         Book book = new Book();
         book.setAuthor("kim");
         book.setIsbn("4646");
+        book.setName("host");
+        book.setPrice(10000);
+        book.setStockQuantity(10);
         Long savedId = itemService.saveItem(book);
+        em.flush();
+        em.clear();
 
-        // todo
+        Book book1 = new Book();
+        book1.setAuthor("kim");
+        book1.setIsbn("4646");
+        book1.setName("client");
+        book1.setPrice(9000);
+        book1.setStockQuantity(20);
+        book1.setId(savedId);
+        itemService.updateItem(book1);
+        em.flush();
+        em.clear();
 
+        Item findItem = itemService.findOne(savedId);
+        assertThat("client").isEqualTo(findItem.getName());
     }
 
     @Test
