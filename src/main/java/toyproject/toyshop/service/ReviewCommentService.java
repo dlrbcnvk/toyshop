@@ -7,8 +7,11 @@ import toyproject.toyshop.domain.Item;
 import toyproject.toyshop.domain.ItemReview;
 import toyproject.toyshop.domain.Member;
 import toyproject.toyshop.domain.ReviewComment;
+import toyproject.toyshop.repository.ItemReviewRepository;
+import toyproject.toyshop.repository.MemberRepository;
 import toyproject.toyshop.repository.ReviewCommentRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -17,10 +20,24 @@ import java.util.List;
 public class ReviewCommentService {
 
     private final ReviewCommentRepository reviewCommentRepository;
+    private final MemberRepository memberRepository;
+    private final ItemReviewRepository itemReviewRepository;
 
-    public Long saveReviewComment(ReviewComment ReviewComment) {
-        reviewCommentRepository.save(ReviewComment);
-        return ReviewComment.getId();
+
+    /** 댓글 등록 */
+    @Transactional
+    public Long comment(Member member, ItemReview itemReview, String comment) {
+        ReviewComment reviewComment = ReviewComment.createReviewComment(member, itemReview, comment);
+        reviewCommentRepository.save(reviewComment);
+        return reviewComment.getId();
+    }
+
+    /** 댓글 수정 */
+    @Transactional
+    public void updateComment(ReviewComment reviewComment) {
+        ReviewComment findReviewComment = reviewCommentRepository.findOne(reviewComment.getId());
+        findReviewComment.setComment(reviewComment.getComment());
+        findReviewComment.setUpdatedDate(LocalDateTime.now());
     }
 
     public List<ReviewComment> findItemReviews() {
@@ -40,8 +57,10 @@ public class ReviewCommentService {
     }
 
     @Transactional //이 댓글 하나만 없애고 싶을 때
-    public void delete(ReviewComment ReviewComment) {
-        reviewCommentRepository.delete(ReviewComment);
+    public void delete(ReviewComment reviewComment) {
+        reviewCommentRepository.delete(reviewComment);
+        reviewComment.getMember().getComments().remove(reviewComment);
+        reviewComment.getItemReview().getComments().remove(reviewComment);
     }
 
 }

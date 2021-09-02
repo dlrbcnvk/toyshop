@@ -29,15 +29,16 @@ public class ReviewComment {
     private LocalDateTime updatedDate;
 
     //==생성 메서드==//
-    public ReviewComment createReviewComment(Member member, ItemReview itemReview, String comment) {
+    public static ReviewComment createReviewComment(Member member, ItemReview itemReview, String comment) {
         ReviewComment reviewComment = new ReviewComment();
         reviewComment.setMember(member);
         reviewComment.setItemReview(itemReview);
         reviewComment.setComment(comment);
         reviewComment.setCreatedDate(LocalDateTime.now());
         reviewComment.setUpdatedDate(LocalDateTime.now());
+        member.getComments().add(reviewComment);
+        itemReview.getComments().add(reviewComment);
 
-        itemReview.addComment(reviewComment);
         return reviewComment;
     }
 

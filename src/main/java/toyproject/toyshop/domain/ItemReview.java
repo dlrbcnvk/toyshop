@@ -34,19 +34,18 @@ public class ItemReview {
     private LocalDateTime updatedDate;
 
     //==생성 메서드==//
-    public ItemReview createItemReview(Item item, Member member, String review) {
+    public static ItemReview createItemReview(Item item, Member member, String review) {
         ItemReview itemReview = new ItemReview();
         itemReview.setMember(member);
         itemReview.setItem(item);
         itemReview.setReview(review);
         itemReview.setCreatedDate(LocalDateTime.now());
         itemReview.setUpdatedDate(LocalDateTime.now());
+        member.getReviews().add(itemReview);
+        item.getReviews().add(itemReview);
         return itemReview;
     }
 
-    public void addComment(ReviewComment reviewComment) {
-        comments.add(reviewComment);
-    }
 
     //==조회 로직==//
     //todo 리뷰 검색
