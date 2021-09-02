@@ -25,7 +25,7 @@ public class ItemReviewService {
         itemReviewRepository.save(itemReview);
     }
 
-    public List<ItemReview> findItemReviews() {
+    public List<ItemReview> findAll() {
         return itemReviewRepository.findAll();
     }
 
