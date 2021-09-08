@@ -5,19 +5,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toyproject.toyshop.domain.*;
 import toyproject.toyshop.repository.ItemRepository;
-import toyproject.toyshop.repository.MemberRepository;
+import toyproject.toyshop.repository.MemberJpaRepository;
 import toyproject.toyshop.repository.OrderItemRepository;
 import toyproject.toyshop.repository.OrderRepository;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class OrderService {
 
-    private final MemberRepository memberRepository;
+    private final MemberJpaRepository memberJpaRepository;
     private final OrderRepository orderRepository;
     private final ItemRepository itemRepository;
     private final OrderItemRepository orderItemRepository;
@@ -29,7 +28,7 @@ public class OrderService {
             throw new IllegalStateException("정보가 안 맞다..! -_- ");
         }
         //멤버 조회
-        Member member = memberRepository.findOne(memberId);
+        Member member = memberJpaRepository.findOne(memberId);
         //배송정보 생성
         Delivery delivery = new Delivery();
         delivery.setAddress(member.getAddress());

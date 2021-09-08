@@ -3,12 +3,11 @@ package toyproject.toyshop.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import toyproject.toyshop.domain.Item;
 import toyproject.toyshop.domain.ItemReview;
 import toyproject.toyshop.domain.Member;
 import toyproject.toyshop.domain.ReviewComment;
 import toyproject.toyshop.repository.ItemReviewRepository;
-import toyproject.toyshop.repository.MemberRepository;
+import toyproject.toyshop.repository.MemberJpaRepository;
 import toyproject.toyshop.repository.ReviewCommentRepository;
 
 import java.time.LocalDateTime;
@@ -20,7 +19,7 @@ import java.util.List;
 public class ReviewCommentService {
 
     private final ReviewCommentRepository reviewCommentRepository;
-    private final MemberRepository memberRepository;
+    private final MemberJpaRepository memberJpaRepository;
     private final ItemReviewRepository itemReviewRepository;
 
 

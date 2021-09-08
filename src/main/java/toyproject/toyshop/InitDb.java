@@ -4,20 +4,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import toyproject.toyshop.domain.*;
-import toyproject.toyshop.repository.MemberRepository;
+import toyproject.toyshop.repository.MemberJpaRepository;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class InitDb {
 
     private final InitService initService;
-    private static MemberRepository memberRepository;
+    private static MemberJpaRepository memberJpaRepository;
 
     @PostConstruct
     public void init() {

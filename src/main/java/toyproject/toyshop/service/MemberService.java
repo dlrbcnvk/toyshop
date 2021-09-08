@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toyproject.toyshop.domain.Member;
-import toyproject.toyshop.repository.MemberRepository;
+import toyproject.toyshop.repository.MemberJpaRepository;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private final MemberRepository memberRepository;
+    private final MemberJpaRepository memberJpaRepository;
 
     /**
      * 회원 가입
@@ -21,12 +21,12 @@ public class MemberService {
     @Transactional
     public Long join(Member member) {
         validateDuplicateMember(member);
-        memberRepository.save(member);
+        memberJpaRepository.save(member);
         return member.getId();
     }
 
     private void validateDuplicateMember(Member member) {
-        List<Member> findMembers = memberRepository.findByName(member.getName());
+        List<Member> findMembers = memberJpaRepository.findByName(member.getName());
         if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
@@ -36,11 +36,11 @@ public class MemberService {
      * 전체 회원 조회
      */
     public List<Member> findMembers(){
-        return memberRepository.findAll();
+        return memberJpaRepository.findAll();
     }
 
     public Member findOne(Long memberId){
-        return memberRepository.findOne(memberId);
+        return memberJpaRepository.findOne(memberId);
     }
 
     /**
@@ -48,7 +48,7 @@ public class MemberService {
      */
     @Transactional
     public void updateName(Long id, String name) {
-        Member findMember = memberRepository.findOne(id);
+        Member findMember = memberJpaRepository.findOne(id);
         if (findMember == null) {
             throw new IllegalStateException("없는 사람 이름을 바꾸려고 하네..?!");
         }
@@ -60,6 +60,6 @@ public class MemberService {
      */
     @Transactional
     public void deleteMember(Member member) {
-         memberRepository.delete(member);
+         memberJpaRepository.delete(member);
     }
 }

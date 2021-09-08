@@ -3,10 +3,9 @@ package toyproject.toyshop.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import toyproject.toyshop.domain.Member;
-import toyproject.toyshop.repository.MemberRepository;
+import toyproject.toyshop.repository.MemberJpaRepository;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ class MemberServiceTest {
 
     @Autowired MemberService memberService;
     @Autowired
-    MemberRepository memberRepository;
+    MemberJpaRepository memberJpaRepository;
 
     @Test
     public void 회원가입() throws Exception {
@@ -29,7 +28,7 @@ class MemberServiceTest {
         //when
         Long savedId = memberService.join(member);
         //then
-        assertEquals(member, memberRepository.findOne(savedId));
+        assertEquals(member, memberJpaRepository.findOne(savedId));
     }
 
     @Test

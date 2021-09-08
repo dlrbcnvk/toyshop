@@ -1,7 +1,6 @@
 package toyproject.toyshop.service;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,15 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import toyproject.toyshop.domain.*;
 import toyproject.toyshop.repository.ItemRepository;
 import toyproject.toyshop.repository.ItemReviewRepository;
-import toyproject.toyshop.repository.MemberRepository;
+import toyproject.toyshop.repository.MemberJpaRepository;
 import toyproject.toyshop.repository.ReviewCommentRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -28,7 +23,8 @@ class ItemReviewServiceTest {
     @Autowired
     ReviewCommentRepository reviewCommentRepository;
     @Autowired ItemRepository itemRepository;
-    @Autowired MemberRepository memberRepository;
+    @Autowired
+    MemberJpaRepository memberJpaRepository;
 
     @PersistenceContext EntityManager em;
 
@@ -46,14 +42,14 @@ class ItemReviewServiceTest {
         member.setPassword("1234");
         member.setAddress(new Address("gunpo", "samsung", "15524"));
         itemRepository.save(book);
-        memberRepository.save(member);
+        memberJpaRepository.save(member);
         String review = "정말 좋은 아이템이네요~! >,<";
         Long reviewId = itemReviewService.review(book, member, review);
 
         ItemReview findItemReview = itemReviewRepository.findOne(reviewId);
         Item findItem = findItemReview.getItem();
-        assertThat(findItemReview.getItem().getStockQuantity()).isEqualTo(10);
-        assertThat(findItem.getPrice()).isEqualTo(10000);
+        Assertions.assertThat(findItemReview.getItem().getStockQuantity()).isEqualTo(10);
+        Assertions.assertThat(findItem.getPrice()).isEqualTo(10000);
     }
 
     @Test
@@ -63,7 +59,7 @@ class ItemReviewServiceTest {
         Member member = new Member();
         member.setName("choi");
         itemRepository.save(book);
-        memberRepository.save(member);
+        memberJpaRepository.save(member);
         String review = "정말 좋은 아이템이네요~! >,<";
         Long reviewId = itemReviewService.review(book, member, review);
 
@@ -73,8 +69,8 @@ class ItemReviewServiceTest {
 
         itemReviewService.updateReview(itemReview);
         ItemReview findItemReview = itemReviewRepository.findOne(reviewId);
-        assertThat(findItemReview.getReview()).isEqualTo("zzzz");
-        assertThat(findItemReview.getItem()).isEqualTo(book);
+        Assertions.assertThat(findItemReview.getReview()).isEqualTo("zzzz");
+        Assertions.assertThat(findItemReview.getItem()).isEqualTo(book);
     }
 
     @Test
@@ -84,7 +80,7 @@ class ItemReviewServiceTest {
         Member member = new Member();
         member.setName("choi");
         itemRepository.save(book);
-        memberRepository.save(member);
+        memberJpaRepository.save(member);
         Long reviewId = itemReviewService.review(book, member, "정말 좋은 아이템이네요~! >,<");
         ItemReview findItemReview = itemReviewRepository.findOne(reviewId);
         ReviewComment reviewComment1 = ReviewComment.createReviewComment(member, findItemReview, "1등");
@@ -96,8 +92,8 @@ class ItemReviewServiceTest {
 
         findItemReview = itemReviewRepository.findOne(reviewId);
         itemReviewService.delete(findItemReview);
-        assertThat(member.getReviews().size()).isEqualTo(0);
-        assertThat(member.getComments().size()).isEqualTo(0);
+        Assertions.assertThat(member.getReviews().size()).isEqualTo(0);
+        Assertions.assertThat(member.getComments().size()).isEqualTo(0);
 
     }
 }

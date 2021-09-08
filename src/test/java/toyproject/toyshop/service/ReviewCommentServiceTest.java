@@ -11,14 +11,13 @@ import toyproject.toyshop.domain.Member;
 import toyproject.toyshop.domain.ReviewComment;
 import toyproject.toyshop.repository.ItemRepository;
 import toyproject.toyshop.repository.ItemReviewRepository;
-import toyproject.toyshop.repository.MemberRepository;
+import toyproject.toyshop.repository.MemberJpaRepository;
 import toyproject.toyshop.repository.ReviewCommentRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -26,7 +25,8 @@ class ReviewCommentServiceTest {
 
     @Autowired ReviewCommentService reviewCommentService;
     @Autowired ReviewCommentRepository reviewCommentRepository;
-    @Autowired MemberRepository memberRepository;
+    @Autowired
+    MemberJpaRepository memberJpaRepository;
     @Autowired ItemReviewRepository itemReviewRepository;
     @Autowired ItemRepository itemRepository;
 
@@ -40,7 +40,7 @@ class ReviewCommentServiceTest {
         Member member = new Member();
         member.setName("kim");
         ItemReview itemReview = ItemReview.createItemReview(book, member, "I love this book...!");
-        memberRepository.save(member);
+        memberJpaRepository.save(member);
         itemRepository.save(book);
         itemReviewRepository.save(itemReview);
 
@@ -60,7 +60,7 @@ class ReviewCommentServiceTest {
         Member member = new Member();
         member.setName("kim");
         ItemReview itemReview = ItemReview.createItemReview(book, member, "I love this book...!");
-        memberRepository.save(member);
+        memberJpaRepository.save(member);
         itemRepository.save(book);
         itemReviewRepository.save(itemReview);
         Long commentId = reviewCommentService.comment(member, itemReview, "me too~ >,<");
@@ -83,7 +83,7 @@ class ReviewCommentServiceTest {
         Member member = new Member();
         member.setName("kim");
         itemRepository.save(book);
-        memberRepository.save(member);
+        memberJpaRepository.save(member);
         ItemReview itemReview = ItemReview.createItemReview(book, member, "I love this book...!");
         itemReviewRepository.save(itemReview);
         Long commentId1 = reviewCommentService.comment(member, itemReview, "me too~ >,<");
